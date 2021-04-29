@@ -21,7 +21,7 @@ public class UnoGUI extends JFrame{
 		panel.setLayout(new FlowLayout());
 
 		
-		JButton drawButton = new JButton("Deal");
+		JButton drawButton = new JButton("Draw");
 	    drawButton.addActionListener(new drawCard());
 	    //panel.add(dealbutton);
 	    
@@ -42,7 +42,7 @@ public class UnoGUI extends JFrame{
 	}
 	private class drawCard implements ActionListener{ 
 		public void actionPerformed(ActionEvent event) {
-			draw(1,playersdeck);
+		//	draw(1,playersdeck);
 			System.out.println('d');
 		}
 	}
