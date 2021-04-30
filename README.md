@@ -10,3 +10,7 @@ For our two additional features of this project would like to create a sort of c
 First, we will create a matching class that the player must match the color or number to 
 the top of the deck. For the second additional feature, we want the user to have to say 
 UNO- and if they forget, they get two additional cards.
+
+
+
+Currently to run UNO run the UNO.JAVA to play in terminal. Enter the number for the card in the deck and then enter to place card. If a card is needed to be drawn or quit game select that number. UNOGUI.JAVA is orginized and going to be the next step in the game.
