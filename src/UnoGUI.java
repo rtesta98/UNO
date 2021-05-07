@@ -246,7 +246,7 @@ public class UnoGUI extends JFrame{
 
          } // turns loop end
 	}
-	public void compPlays() {
+	public void compPlays() { //not currently using
 		compdeck1.setText(("My turn! I have " + String.valueOf(compdeck.size() ) + " cards left!" + ((compdeck.size() == 1) ? "...Uno!":"") ));
 		for (choiceIndex = 0; choiceIndex < compdeck.size(); choiceIndex++){
             // Searching for playable cards
@@ -317,7 +317,7 @@ public class UnoGUI extends JFrame{
 	}
 	
 	public static void userPlays(){
-		//
+		//not currently using
 	}
 }
 
