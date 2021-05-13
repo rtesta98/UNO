@@ -23,6 +23,8 @@ public class UnoGUI extends JFrame{
     UnoCard topCard; // card on top of the "pile"
     int choiceIndex; // Index of chosen card for both player and computer
     String currentColor; // Mainly used for wild cards
+    public String savedStr;
+    public int savedNum;
 
     public UnoGUI() {
         setTitle("UNO");
@@ -77,17 +79,24 @@ public class UnoGUI extends JFrame{
         frame.pack();
 
         frame.addWindowListener(new WindowAdapter() {
-            public void windowOpening(WindowEvent windowEvent) {
+            public void windowOpening(WindowEvent e) {
                 newGame();
             }
         });
 
+        selectNum.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                savedStr = selectNum.getText();
+            }
+        });
         drawButton.addActionListener(new drawCard());
         playAgain.addActionListener(new playAgain());
         frame.setSize(500, 350);
         frame.setVisible(true);
         frame.setResizable(false);
         newGame();
+
 
     }
 
@@ -121,17 +130,40 @@ public class UnoGUI extends JFrame{
 
     public void playGame() {
         gameLoop:
-        
-        for (boolean playersTurn = true; win == 0; playersTurn ^= true) {
-            choiceIndex = 0;
-            current.setText("\nThe top card is: " + topCard.getFace());
+        while (true) {
+            playerdeck.clear();
+            compdeck.clear();
+            win = 0;
+            topCard = new UnoCard();
+            currentColor = topCard.color;
 
-            //PLAYERS TURN
-            if (playersTurn) { // Displaying user's deck
-                pDeck.setText("Your turn!");
+            cDeck.setText("\nWelcome to Uno! Initialising decks...");
+            draw(7, playerdeck);
+            draw(7, compdeck);
+
+            //TURNS
+            for (boolean playersTurn = true; win == 0; playersTurn ^= true) {
+                choiceIndex = 0;
+                current.setText("\nThe top card is: " + topCard.getFace());
+
+                //PLAYERS TURN
+                if (playersTurn) { // Displaying user's deck
+                    pDeck.setText("Your turn! Your choices:");
+                    for (int i = 0; i < playerdeck.size(); i++) {
+                        pDeck.setText(String.valueOf(i + 1) + ". " +
+                                ((UnoCard) playerdeck.get(i)).getFace() + "\n");
+                    }
+                    pDeck.setText(String.valueOf(playerdeck.size() + 1) + ". " + "Draw card" + "\n" +
+                            String.valueOf(playerdeck.size() + 2) + ". " + "Quit");
+                    // Repeats every time the user doesn't input a number
+
+                    pDeck.setText("\nPlease input the number of your choice: ");
+                    savedNum = Integer.valueOf(savedStr);
+                    choiceIndex = savedNum - 1;
+
                 //TAKING TURNS
                 if (choiceIndex == playerdeck.size())
-                    draw(1, playerdeck); //how to implement draw button?
+                    draw(1, playerdeck);
                 else if (choiceIndex == playerdeck.size() + 1)
                     break gameLoop;
                 else if (((UnoCard) playerdeck.get(choiceIndex)).canPlace(topCard, currentColor)) {
@@ -152,102 +184,104 @@ public class UnoGUI extends JFrame{
                             case 13:
                             case 14: // Wild cards
                                 do { // Repeats every time the user doesn't input a valid color
-                                    System.out.print("\nEnter the color you want: ");
-                                    input = new Scanner(System.in);
-                                } while (!input.hasNext("R..|r..|G....|g....|B...|b...|Y.....|y....."));
-                                if (input.hasNext("R..|r.."))
+                                    pDeck.setText("\nEnter the color you want: ");
+                                } while (savedStr.indexOf("R..|r..|G....|g....|B...|b...|Y.....|y.....") == 1);
+                                if (savedStr.indexOf("R..|r..") == 1)
                                     currentColor = "Red";
-                                else if (input.hasNext("G....|g...."))
+                                else if (savedStr.indexOf("G....|g....") == 1)
                                     currentColor = "Green";
-                                else if (input.hasNext("B...|b..."))
+                                else if (savedStr.indexOf("B...|b...") == 1)
                                     currentColor = "Blue";
-                                else if (input.hasNext("Y.....|y....."))
+                                else if (savedStr.indexOf("Y.....|y.....") == 1)
                                     currentColor = "Yellow";
 
                                 pDeck.setText("You chose " + currentColor);
 
                                 // Wild draw 4
                                 if (topCard.value == 14) {
-                                    cDeck.setText("Drawing 4 cards...");
+                                    pDeck.setText("Drawing 4 cards...");
                                     draw(4, compdeck);
                                 }
                                 break;
+                            }
                         }
-                    }
-                } else pDeck.setText("Invalid choice. Turn skipped.");
-            }
-
-            //COMPUTERS TURN
-            else {
-                // Finding a card to place
-                cDeck.setText(("My turn! I have " + String.valueOf(compdeck.size()) + " cards left!" + ((compdeck.size() == 1) ? "...Uno!" : "")));
-                for (choiceIndex = 0; choiceIndex < compdeck.size(); choiceIndex++) {
-                    // Searching for playable cards
-                    if (((UnoCard) compdeck.get(choiceIndex)).canPlace(topCard, currentColor))
-                        break;
+                    } else pDeck.setText("Invalid choice. Turn skipped.");
                 }
-                System.out.print(choiceIndex);
-                System.out.print(compdeck.size());
-                if (choiceIndex+1 == compdeck.size()) {
-                    cDeck.setText(("I've got nothing! Drawing cards..."));
-                    draw(1, compdeck);
-                } else {
-                    topCard = (UnoCard) compdeck.get(choiceIndex);
-                    compdeck.remove(choiceIndex);
-                    currentColor = topCard.color;
-                    cDeck.setText(("I choose " + topCard.getFace() + " !"));
 
-                    // Must do as part of each turn because topCard can stay the same through a round
-                    if (topCard.value >= 10) {
-                        playersTurn = true; // Skipping turn
+                //COMPUTERS TURN
+                else{
+                    cDeck.setText("My turn! I have " + String.valueOf(compdeck.size() )
+                            + " cards left!" + ((compdeck.size() == 1) ? "...Uno!":"") );
+                    // Finding a card to place
+                    for (choiceIndex = 0; choiceIndex < compdeck.size(); choiceIndex++){
+                        // Searching for playable cards
+                        if ( ((UnoCard) compdeck.get(choiceIndex)).canPlace(topCard, currentColor) )
+                            break;
+                    }
 
-                        switch (topCard.value) {
-                            case 12: // Draw 2
-                                cDeck.setText("Drawing 2 cards for you...");
-                                draw(2, playerdeck);
-                                break;
+                    if (choiceIndex == compdeck.size() ) {
+                        cDeck.setText("I've got nothing! Drawing cards...");
+                        draw(1,compdeck);
+                    }
+                    else{
+                        topCard = (UnoCard) compdeck.get(choiceIndex);
+                        compdeck.remove(choiceIndex);
+                        currentColor = topCard.color;
+                        cDeck.setText("I choose " + topCard.getFace() + " !");
 
-                            case 13:
-                            case 14: // Wild cards
+                        // Must do as part of each turn because topCard can stay the same through a round
+                        if (topCard.value >= 10) {
+                            playersTurn = true; // Skipping turn
 
-                                do { // Searching for playable cards
-                                    currentColor = new UnoCard().color;
-                                } while (currentColor == "none");
+                            switch (topCard.value) {
+                                case 12: // Draw 2
+                                    cDeck.setText("Drawing 2 cards for you...");
+                                    draw(2,playerdeck);
+                                    break;
 
-                                System.out.println("New color is " + currentColor);
-                                if (topCard.value == 14) { // Wild draw 4
-                                    cDeck.setText("Drawing 4 cards for you...");
-                                    draw(4, playerdeck);
+                                case 13: case 14: // Wild cards
+
+                                    do{ // Searching for playable cards
+                                        currentColor = new UnoCard().color;
+                                    } while (currentColor == "none");
+
+                                    cDeck.setText("New color is " + currentColor);
+                                    if (topCard.value == 14){ // Wild draw 4
+                                        cDeck.setText("Drawing 4 cards for you...");
+                                        draw(4,playerdeck);
+                                    }
+                                    break;
                                 }
-                                break;
+                            }
                         }
+                    // If decks are empty
+                    if (playerdeck.size() == 0)
+                        win = 1;
+                    else if (compdeck.size() == 0)
+                        win = -1;
                     }
-                }
-             
-            }
-         // If decks are empty
-            if (playerdeck.size() == 0) {
-            	 win = 1;
-            	current.setText("Congrats! You win!");
-            }
-            else if (compdeck.size() == 0) {
-            
-            	win=-1;
-            	current.setText("You lose. Try again?");
-            }
 
-        } // turns loop end
+                } // turns loop end
 
+            //RESULTS
+            if (win == 1)
+                pDeck.setText("You win :)");
+            else
+                pDeck.setText("You lose :(");
+
+        } // game loop end
+
+        pDeck.setText("Bye bye");
     }
 
 
-    public void newGame() {
+    public void newGame() { //worth using? go straight to play?
         playerdeck.clear();
         compdeck.clear();
         win = 0;
         topCard = new UnoCard();
         currentColor = topCard.color;
-       // System.out.println("\nWelcome to Uno! Initialising decks...");
+        System.out.println("\nWelcome to Uno! Initialising decks...");
         draw(7, playerdeck);
         draw(7, compdeck);
         topCard = new UnoCard();
@@ -282,4 +316,3 @@ public class UnoGUI extends JFrame{
 
 
 }
-
