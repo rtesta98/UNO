@@ -162,7 +162,7 @@ public class UnoGUI extends JFrame{
                     // Repeats every time the user doesn't input a number
 
                     pDeck.setText("\nPlease input the number of your choice: ");
-                    savedNum = Integer.valueOf(savedStr);
+                    savedNum = Integer.parseInt(savedStr);
                     choiceIndex = savedNum - 1;
 
                 //TAKING TURNS
@@ -304,6 +304,7 @@ public class UnoGUI extends JFrame{
         public void windowOpened(WindowEvent e) {
             newGame();
         }
+
         public void windowClosing(WindowEvent e) {
         }
         public void windowClosed(WindowEvent e) {
