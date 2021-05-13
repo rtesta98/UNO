@@ -18,7 +18,7 @@ public class UnoGUI extends JFrame{
     public ArrayList<UnoCard> compdeck = new ArrayList<UnoCard>();
     public boolean playersTurn;
     public int win;
-    public int currentDeck;
+    //public int currentDeck;
     Scanner input;
     UnoCard topCard; // card on top of the "pile"
     int choiceIndex; // Index of chosen card for both player and computer
@@ -33,10 +33,12 @@ public class UnoGUI extends JFrame{
         JButton drawButton = new JButton("Draw Card");
         JButton playAgain = new JButton("Restart");
         JTextArea cDeck = new JTextArea(" ", 11, 10);
-        JTextArea current = new JTextArea(" ", 1, 21);
+        cDeck.setText("\nWelcome to Uno! Initialising decks...");
+        JTextArea current = new JTextArea("[Yellow 3] ", 1, 21);
         JLabel enter = new JLabel("Enter number:  ");
         JTextField selectNum = new JTextField(10);
         JTextArea pDeck = new JTextArea(" ", 10, 10);
+        pDeck.setText("Not your turn");
 
         JPanel panel = new JPanel();
         JPanel panel2 = new JPanel();
@@ -78,11 +80,11 @@ public class UnoGUI extends JFrame{
         frame.add(panel2);
         frame.pack();
 
-        frame.addWindowListener(new WindowAdapter() {
-            public void windowOpening(WindowEvent e) {
-                newGame();
-            }
-        });
+      //  frame.addWindowListener(new WindowAdapter() {
+         //   public void windowOpening(WindowEvent e) {
+       //         playGame();
+       //     }
+       // });
 
         selectNum.addActionListener(new ActionListener() {
             @Override
@@ -95,19 +97,19 @@ public class UnoGUI extends JFrame{
         frame.setSize(500, 350);
         frame.setVisible(true);
         frame.setResizable(false);
-        newGame();
+        playGame();
 
 
     }
 
     private class drawCard implements ActionListener {
         public void actionPerformed(ActionEvent event) {
-            if (currentDeck == 1) {
+            if (playersTurn) {
                 draw(1, playerdeck); //user needs to draw
-                currentDeck = 0; //computers turn
+                //currentDeck = 0; //computers turn
             } else {//computer needs to draw
                 draw(1, compdeck);
-                currentDeck = 1;
+              //  currentDeck = 1;
             }
         }
     }
@@ -128,7 +130,7 @@ public class UnoGUI extends JFrame{
             deck.add(new UnoCard());
     }
 
-    public void playGame() {
+    public void playGame(){
         gameLoop:
         while (true) {
             playerdeck.clear();
@@ -137,18 +139,21 @@ public class UnoGUI extends JFrame{
             topCard = new UnoCard();
             currentColor = topCard.color;
 
-            cDeck.setText("\nWelcome to Uno! Initialising decks...");
+
+            //cDeck.setText("\nWelcome to Uno! Initialising decks...");
             draw(7, playerdeck);
             draw(7, compdeck);
 
             //TURNS
             for (boolean playersTurn = true; win == 0; playersTurn ^= true) {
                 choiceIndex = 0;
-                current.setText("\nThe top card is: " + topCard.getFace());
+                //current.setText("The top card is: " + topCard.getFace() ); //changed above to initailize for now
+
 
                 //PLAYERS TURN
                 if (playersTurn) { // Displaying user's deck
-                    pDeck.setText("Your turn! Your choices:");
+                	System.out.println("d");
+                    pDeck.setText("Your turn! Your choices:"); //causes error !!!!!!!!
                     for (int i = 0; i < playerdeck.size(); i++) {
                         pDeck.setText(String.valueOf(i + 1) + ". " +
                                 ((UnoCard) playerdeck.get(i)).getFace() + "\n");
@@ -206,6 +211,7 @@ public class UnoGUI extends JFrame{
                             }
                         }
                     } else pDeck.setText("Invalid choice. Turn skipped.");
+                playersTurn=false;
                 }
 
                 //COMPUTERS TURN
@@ -271,7 +277,7 @@ public class UnoGUI extends JFrame{
 
         } // game loop end
 
-        pDeck.setText("Bye bye");
+        pDeck.setText("New Game?");
     }
 
 
@@ -288,7 +294,7 @@ public class UnoGUI extends JFrame{
         current.setText(topCard.getFace()); //this is causing error
         //current.add(topCard); //help?
         currentColor = topCard.color;
-        currentDeck = 1; //tracks who is playing
+      //  currentDeck = 1; //tracks who is playing
         playersTurn = true;
         choiceIndex = 1;
         playGame();
