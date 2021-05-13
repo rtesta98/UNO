@@ -12,12 +12,10 @@ public class UnoGUI extends JFrame{
     public JTextField selectNum;
     public JLabel enter;
     public JTextArea pDeck;
-
     public ArrayList<UnoCard> playerdeck = new ArrayList<UnoCard>();
     public ArrayList<UnoCard> compdeck = new ArrayList<UnoCard>();
     public boolean playersTurn;
     public int win;
-    //public int currentDeck;
     Scanner input;
     UnoCard topCard; // card on top of the "pile"
     int choiceIndex; // Index of chosen card for both player and computer
@@ -31,7 +29,7 @@ public class UnoGUI extends JFrame{
 
         playAgain = new JButton("Restart");
         cDeck = new JTextArea("", 11, 10);
-        cDeck.setText("\nWelcome to Uno! Initialising decks...");
+        cDeck.setText("\nWelcome to Uno! You go first.");
         current = new JTextArea("", 1, 21);
         enter = new JLabel("Enter number:         ");
         selectNum = new JTextField(10);
@@ -84,7 +82,6 @@ public class UnoGUI extends JFrame{
                 savedStr = selectNum.getText();
                 savedNum = Integer.parseInt(savedStr);
                 choiceIndex = savedNum - 1;
-                System.out.print("enter");
                 //TAKING TURNS
                 if (choiceIndex == playerdeck.size())
                     draw(1, playerdeck);
@@ -134,10 +131,9 @@ public class UnoGUI extends JFrame{
 
 
                 //COMPUTERS TURN
-
                 String res2 = "";
                 res2 += ("My turn! I have " + String.valueOf(compdeck.size())
-                        + " cards left!" + ((compdeck.size() == 1) ? "...Uno!" : ""));
+                        + " cards left! \n" + ((compdeck.size() == 2) ? "...Uno!" : ""));
                 // Finding a card to place
                 for (choiceIndex = 0; choiceIndex < compdeck.size(); choiceIndex++) {
                     // Searching for playable cards
@@ -186,16 +182,13 @@ public class UnoGUI extends JFrame{
                 else if (compdeck.size() == 0)
                     win = -1;
 
-
-                //for (boolean playersTurn = true; win == 0; playersTurn ^= true) {
                     choiceIndex = 0;
                     current.setText(topCard.getFace() ); //changed above to initailize for now
 
 
                     //PLAYERS TURN
-                    //if (playersTurn) { // Displaying user's deck
                         String res = "";
-                        res += ("Your turn! Your choices:\n"); //causes error !!!!!!!!
+                        res += ("Your turn! Your choices:\n"); 
                         for (int i = 0; i < playerdeck.size(); i++) {
                             res += (String.valueOf(i + 1) + ". " +
                                     ((UnoCard) playerdeck.get(i)).getFace() + "\n");
@@ -203,7 +196,6 @@ public class UnoGUI extends JFrame{
                         res += (String.valueOf(playerdeck.size() + 1) + ". " + "Draw card" + "\n" +
                                 String.valueOf(playerdeck.size() + 2) + ". " + "Quit");
                         // Repeats every time the user doesn't input a number
-
                         res += ("\nPlease input the number of your choice: ");
                         pDeck.setText(res);
 
@@ -216,8 +208,6 @@ public class UnoGUI extends JFrame{
 
                         selectNum.setText("");
                     }
-               // }
-           // }
         });
 
         playAgain.addActionListener(new playAgain());
@@ -232,6 +222,8 @@ public class UnoGUI extends JFrame{
         public void actionPerformed(ActionEvent event) {
             // clear and restart;
             playGame();
+            cDeck.setText("I am drawing. It's your turn!");
+
         }
     }
 
@@ -256,16 +248,12 @@ public class UnoGUI extends JFrame{
         draw(7, compdeck);
 
         //TURNS
-       // for (boolean playersTurn = true; win == 0; playersTurn ^= true) {
             choiceIndex = 0;
-            //current.setText("The top card is: " + topCard.getFace() ); //changed above to initialize for now
 
 
             //PLAYERS TURN
-           // if (playersTurn) { // Displaying user's deck
-                System.out.println("d");
                 String res = "";
-                res += ("Your turn! Your choices:\n"); //causes error !!!!!!!!
+                res += ("Your turn! Your choices:\n"); 
                 for (int i = 0; i < playerdeck.size(); i++) {
                     res += (String.valueOf(i + 1) + ". " +
                             ((UnoCard) playerdeck.get(i)).getFace() + "\n");
@@ -276,12 +264,8 @@ public class UnoGUI extends JFrame{
 
                 res += ("\nPlease input the number of your choice: ");
                 pDeck.setText(res);
-            //}
 
-
-       // } // turns loop end
 
     } // game loop end
-
 
 }
