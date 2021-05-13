@@ -6,13 +6,13 @@ import javax.swing.*;
 
 public class UnoGUI extends JFrame{
     JFrame frame = new JFrame("Uno");
-    private JButton drawButton;
-    private JButton playAgain;
-    private JTextArea cDeck;
-    private JTextArea current;
-    private JTextField selectNum;
-    private JLabel enter;
-    private JTextArea pDeck;
+    public JButton drawButton;
+    public JButton playAgain;
+    public JTextArea cDeck;
+    public JTextArea current;
+    public JTextField selectNum;
+    public JLabel enter;
+    public JTextArea pDeck;
 
     public ArrayList<UnoCard> playerdeck = new ArrayList<UnoCard>();
     public ArrayList<UnoCard> compdeck = new ArrayList<UnoCard>();
@@ -30,14 +30,14 @@ public class UnoGUI extends JFrame{
         setTitle("UNO");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JButton drawButton = new JButton("Draw Card");
-        JButton playAgain = new JButton("Restart");
-        JTextArea cDeck = new JTextArea(" ", 11, 10);
+        drawButton = new JButton("Draw Card");
+        playAgain = new JButton("Restart");
+        cDeck = new JTextArea(" ", 11, 10);
         cDeck.setText("\nWelcome to Uno! Initialising decks...");
-        JTextArea current = new JTextArea("[Yellow 3] ", 1, 21);
-        JLabel enter = new JLabel("Enter number:  ");
-        JTextField selectNum = new JTextField(10);
-        JTextArea pDeck = new JTextArea(" ", 10, 10);
+        current = new JTextArea("[Yellow 3] ", 1, 21);
+        enter = new JLabel("Enter number:  ");
+        selectNum = new JTextField(10);
+        pDeck = new JTextArea(" ", 10, 10);
         pDeck.setText("Not your turn");
 
         JPanel panel = new JPanel();
@@ -94,9 +94,8 @@ public class UnoGUI extends JFrame{
         });
         drawButton.addActionListener(new drawCard());
         playAgain.addActionListener(new playAgain());
-        frame.setSize(500, 350);
+        frame.setSize(600, 350);
         frame.setVisible(true);
-        frame.setResizable(false);
         playGame();
 
 
