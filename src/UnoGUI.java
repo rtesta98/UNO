@@ -218,14 +218,18 @@ public class UnoGUI extends JFrame{
                                     cDeck.setText("Drawing 4 cards for you...");
                                     draw(4, playerdeck);
                                 }
+                                
                                 break;
                         }
                     }
                 }
-
-                
+             
             }
-            endGame();
+         // If decks are empty
+            if (playerdeck.size() == 0)
+                win = 1;
+            else if (compdeck.size() == 0)
+                win = -1;
 
         } // turns loop end
 
