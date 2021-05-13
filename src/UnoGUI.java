@@ -5,100 +5,76 @@ import java.util.Scanner;
 import javax.swing.*;
 
 public class UnoGUI extends JFrame{
-	JFrame frame = new JFrame("Uno");
-	private JButton drawButton;
-	private JButton placeButton;
-	private JButton playAgain;
-	private JComboBox p1;
-	private JTextField compdeck1;
-	private JTextField current;
-	private JTextField txtUpdate;
-	//private JLabel cardholder;
-	public ArrayList<UnoCard> playerdeck = new ArrayList<UnoCard>();
-	public ArrayList<UnoCard> compdeck = new ArrayList<UnoCard>();
-	public boolean playersTurn;
-	public int win;
-	public int currentDeck;
-	Scanner input;
-    UnoCard topCard; // card on top of the "pile"
-    int choiceIndex; // Index of chosen card for both player and computer
-    String currentColor; // Mainly used for wild cards
-	
+    JFrame frame = new JFrame("Uno");
+    private JButton drawButton;
+    private JButton placeButton;
+    private JButton playAgain;
+    private JTextArea compdeck;
+    private JTextArea current;
+    private JTextField select;
+    private JTextArea area;
 
-	public UnoGUI(){
-		setTitle("UNO");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    public UnoGUI(){
+        setTitle("UNO");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        //ArrayList<UnoCard> playerdeck = new ArrayList<UnoCard>();
-        //ArrayList<UnoCard> compdeck = new ArrayList<UnoCard>();
-		JButton drawButton = new JButton("Draw");
-		JButton placeButton = new JButton("Place");
-		JButton playAgain = new JButton("Restart");
-		JTextField compdeck1 = new JTextField(15);
-		JTextField current = new JTextField(10);
-		//JLabel cardholder = new JLabel("Drop Down Here");
-		JTextField txtUpdate = new JTextField(20);
-		
-		
-		
-		///HERE - Unsure how to initialize
-		ArrayList<UnoCard> usersCards = playerdeck;
-		JComboBox p1 = new JComboBox((ComboBoxModel) usersCards);
-		
-		/*
-		ArrayList cardlist= new ArrayList();
-		cardlist.add(null);
-		JComboBox p1 = (JComboBox)(cardlist);
-		 */
-		JPanel panel = new JPanel();
-		JPanel panel2 = new JPanel();
-		JPanel panel3 = new JPanel();
+        JButton drawButton = new JButton("Draw");
+        JButton placeButton = new JButton("Place");
+        JButton playAgain = new JButton("Restart");
+        JTextArea compdeck = new JTextArea("Computer Deck", 11, 10);
+        JTextArea current = new JTextArea("Current Card", 1, 21);
+        JTextField select = new JTextField(10);
+        JTextArea area = new JTextArea("Player Deck", 10, 10);
 
-		panel.setBorder(BorderFactory.createTitledBorder("Player"));
-		panel2.setBorder(BorderFactory.createTitledBorder("UNO"));
-		panel3.setBorder(BorderFactory.createTitledBorder("Computer"));
+        JPanel panel = new JPanel();
+        JPanel panel2 = new JPanel();
+        JPanel panel3 = new JPanel();
 
-		panel.setBackground(Color.RED);
-		panel2.setBackground(Color.RED);
-		panel3.setBackground(Color.RED);
+        panel.setBorder(BorderFactory.createTitledBorder("Player"));
+        panel2.setBorder(BorderFactory.createTitledBorder("UNO"));
+        panel3.setBorder(BorderFactory.createTitledBorder("Computer"));
 
-		BoxLayout layout1 = new BoxLayout(panel, BoxLayout.Y_AXIS);
-		BoxLayout layout2 = new BoxLayout(panel2, BoxLayout.Y_AXIS);
-		BoxLayout layout3 = new BoxLayout(panel3, BoxLayout.Y_AXIS);
-		panel.setLayout(layout1);
-		panel2.setLayout(layout2);
-		panel3.setLayout(layout3);
+        panel.setBackground(Color.RED);
+        panel2.setBackground(Color.RED);
+        panel3.setBackground(Color.RED);
 
-		p1.setAlignmentX(Component.CENTER_ALIGNMENT);
-		placeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		panel.add(p1);
-		panel.add(placeButton);
+        BoxLayout layout1 = new BoxLayout(panel, BoxLayout.Y_AXIS);
+        BoxLayout layout2 = new BoxLayout(panel2, BoxLayout.Y_AXIS);
+        BoxLayout layout3 = new BoxLayout(panel3, BoxLayout.Y_AXIS);
+        panel.setLayout(layout1);
+        panel2.setLayout(layout2);
+        panel3.setLayout(layout3);
 
-		current.setAlignmentX(Component.CENTER_ALIGNMENT);
-		drawButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		panel2.add(current);
-		panel2.add(drawButton);
-		panel2.add(txtUpdate);
+        area.setAlignmentX(Component.CENTER_ALIGNMENT);
+        placeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.add(area);
+        panel.add(select);
+        panel.add(placeButton);
 
-		compdeck1.setAlignmentX(Component.CENTER_ALIGNMENT);
-		playAgain.setAlignmentX(Component.CENTER_ALIGNMENT);
-		panel3.add(compdeck1);
-		panel3.add(playAgain);
+        current.setAlignmentX(Component.CENTER_ALIGNMENT);
+        drawButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel2.add(current);
+        panel2.add(drawButton);
 
-		frame.setLayout(new FlowLayout());
-		frame.add(panel);
-		frame.add(panel2);
-		frame.add(panel3);
-		frame.pack();
+        compdeck.setAlignmentX(Component.CENTER_ALIGNMENT);
+        playAgain.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel3.add(compdeck);
+        panel3.add(playAgain);
 
-		drawButton.addActionListener(new drawCard());
-		placeButton.addActionListener(new placeCard());
-		playAgain.addActionListener(new playAgain());
-		frame.setSize(400,150);
-		frame.setVisible(true);
-		
-        System.out.println("\nWelcome to Uno! Initialising decks...");
-        newGame();
+        frame.setLayout(new FlowLayout());
+        frame.add(panel);
+        frame.add(panel3);
+        frame.add(panel2);
+        frame.pack();
+
+        drawButton.addActionListener(new drawCard());
+        placeButton.addActionListener(new placeCard());
+        playAgain.addActionListener(new playAgain());
+        frame.setSize(285,350);
+        frame.setVisible(true);
+        frame.setResizable(false);
+
+
 	}
 	private class drawCard implements ActionListener{
 		public void actionPerformed(ActionEvent event) {
