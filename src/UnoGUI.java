@@ -87,8 +87,7 @@ public class UnoGUI extends JFrame{
         frame.setSize(500, 350);
         frame.setVisible(true);
         frame.setResizable(false);
-
-
+        newGame();
     }
 
     private class drawCard implements ActionListener {
@@ -186,8 +185,9 @@ public class UnoGUI extends JFrame{
                     if (((UnoCard) compdeck.get(choiceIndex)).canPlace(topCard, currentColor))
                         break;
                 }
-
-                if (choiceIndex == compdeck.size()) {
+                System.out.print(choiceIndex);
+                System.out.print(compdeck.size());
+                if (choiceIndex+1 == compdeck.size()) {
                     cDeck.setText(("I've got nothing! Drawing cards..."));
                     draw(1, compdeck);
                 } else {
@@ -223,12 +223,9 @@ public class UnoGUI extends JFrame{
                     }
                 }
 
-                // If decks are empty
-                if (playerdeck.size() == 0)
-                    win = 1;
-                else if (compdeck.size() == 0)
-                    win = -1;
+                
             }
+            endGame();
 
         } // turns loop end
 
@@ -248,7 +245,7 @@ public class UnoGUI extends JFrame{
         win = 0;
         topCard = new UnoCard();
         currentColor = topCard.color;
-        System.out.println("\nWelcome to Uno! Initialising decks...");
+       // System.out.println("\nWelcome to Uno! Initialising decks...");
         draw(7, playerdeck);
         draw(7, compdeck);
         topCard = new UnoCard();
