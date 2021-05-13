@@ -30,12 +30,12 @@ public class UnoGUI extends JFrame{
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         playAgain = new JButton("Restart");
-        cDeck = new JTextArea(" ", 11, 10);
+        cDeck = new JTextArea("", 11, 10);
         cDeck.setText("\nWelcome to Uno! Initialising decks...");
-        current = new JTextArea("[Yellow 3] ", 1, 21);
-        enter = new JLabel("Enter number:  ");
+        current = new JTextArea("", 1, 21);
+        enter = new JLabel("Enter number:         ");
         selectNum = new JTextField(10);
-        pDeck = new JTextArea(" ", 10, 10);
+        pDeck = new JTextArea("", 10, 10);
         pDeck.setText("Not your turn");
 
         JPanel panel = new JPanel();
@@ -82,6 +82,8 @@ public class UnoGUI extends JFrame{
             public void actionPerformed(ActionEvent e) {
 
                 savedStr = selectNum.getText();
+                savedNum = Integer.parseInt(savedStr);
+                choiceIndex = savedNum - 1;
                 System.out.print("enter");
                 //TAKING TURNS
                 if (choiceIndex == playerdeck.size())
@@ -185,13 +187,13 @@ public class UnoGUI extends JFrame{
                     win = -1;
 
 
-                for (boolean playersTurn = true; win == 0; playersTurn ^= true) {
+                //for (boolean playersTurn = true; win == 0; playersTurn ^= true) {
                     choiceIndex = 0;
-                    //current.setText("The top card is: " + topCard.getFace() ); //changed above to initailize for now
+                    current.setText(topCard.getFace() ); //changed above to initailize for now
 
 
                     //PLAYERS TURN
-                    if (playersTurn) { // Displaying user's deck
+                    //if (playersTurn) { // Displaying user's deck
                         String res = "";
                         res += ("Your turn! Your choices:\n"); //causes error !!!!!!!!
                         for (int i = 0; i < playerdeck.size(); i++) {
@@ -204,15 +206,22 @@ public class UnoGUI extends JFrame{
 
                         res += ("\nPlease input the number of your choice: ");
                         pDeck.setText(res);
-                        savedNum = Integer.parseInt(savedStr);
-                        choiceIndex = savedNum - 1;
+
+                        //RESULTS
+                        if (win == 1)
+                            pDeck.setText("You win :)");
+                        if (win == -1)
+                            pDeck.setText("You lose :(");
+
+
+                        selectNum.setText("");
                     }
-                }
-            }
+               // }
+           // }
         });
 
         playAgain.addActionListener(new playAgain());
-        frame.setSize(600, 350);
+        frame.setSize(700, 350);
         frame.setVisible(true);
         playGame();
 
@@ -247,13 +256,13 @@ public class UnoGUI extends JFrame{
         draw(7, compdeck);
 
         //TURNS
-        for (boolean playersTurn = true; win == 0; playersTurn ^= true) {
+       // for (boolean playersTurn = true; win == 0; playersTurn ^= true) {
             choiceIndex = 0;
             //current.setText("The top card is: " + topCard.getFace() ); //changed above to initialize for now
 
 
             //PLAYERS TURN
-            if (playersTurn) { // Displaying user's deck
+           // if (playersTurn) { // Displaying user's deck
                 System.out.println("d");
                 String res = "";
                 res += ("Your turn! Your choices:\n"); //causes error !!!!!!!!
@@ -267,20 +276,11 @@ public class UnoGUI extends JFrame{
 
                 res += ("\nPlease input the number of your choice: ");
                 pDeck.setText(res);
-                savedNum = Integer.parseInt(savedStr);
-                choiceIndex = savedNum - 1;
-            }
+            //}
 
 
-        } // turns loop end
+       // } // turns loop end
 
-        //RESULTS
-        if (win == 1)
-            pDeck.setText("You win :)");
-        else
-            pDeck.setText("You lose :(");
-
-        pDeck.setText("New Game?");
     } // game loop end
 
 
