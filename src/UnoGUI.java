@@ -88,6 +88,7 @@ public class UnoGUI extends JFrame{
         frame.setVisible(true);
         frame.setResizable(false);
         newGame();
+
     }
 
     private class drawCard implements ActionListener {
@@ -218,7 +219,6 @@ public class UnoGUI extends JFrame{
                                     cDeck.setText("Drawing 4 cards for you...");
                                     draw(4, playerdeck);
                                 }
-                                
                                 break;
                         }
                     }
@@ -226,22 +226,20 @@ public class UnoGUI extends JFrame{
              
             }
          // If decks are empty
-            if (playerdeck.size() == 0)
-                win = 1;
-            else if (compdeck.size() == 0)
-                win = -1;
+            if (playerdeck.size() == 0) {
+            	 win = 1;
+            	current.setText("Congrats! You win!");
+            }
+            else if (compdeck.size() == 0) {
+            
+            	win=-1;
+            	current.setText("You lose. Try again?");
+            }
 
         } // turns loop end
 
     }
 
-    public void endGame() {
-        // If decks are empty
-        if (playerdeck.size() == 0)
-            win = 1;
-        else if (compdeck.size() == 0)
-            win = -1;
-    }
 
     public void newGame() {
         playerdeck.clear();
@@ -284,3 +282,4 @@ public class UnoGUI extends JFrame{
 
 
 }
+
