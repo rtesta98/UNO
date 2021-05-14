@@ -14,7 +14,7 @@ UNO- and if they forget, they get two additional cards.
 
 Currently, to run UNO, run the Uno.JAVA to play in terminal. Enter the number for the card in the deck and then enter to place card. 
 If a card is needed to be drawn or quit game select that number. 
-To run the GUI Run UnoGUI.java, very similar to the terminal game enter the number
+To run the GUI Run Uno.jar file, very similar to the terminal game enter the number
 of the card you'd like to play and hit enter. Enter the number to draw a card if none can be played in the deck. Once the game is over
 you can choose to restart with the restart button or exit the game chose the quit option or close the window. 
 
