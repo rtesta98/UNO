@@ -26,7 +26,7 @@ public class UnoGUI extends JFrame{
     public UnoGUI() {
         setTitle("UNO");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        frame.getContentPane().setBackground(Color.RED);
         playAgain = new JButton("Restart");
         cDeck = new JTextArea("", 11, 10);
         cDeck.setText("\nWelcome to Uno! You go first.");
@@ -182,37 +182,38 @@ public class UnoGUI extends JFrame{
                 else if (compdeck.size() == 0)
                     win = -1;
 
-                    choiceIndex = 0;
-                    current.setText(topCard.getFace() ); //changed above to initailize for now
+                choiceIndex = 0;
+                current.setText(topCard.getFace() ); //changed above to initailize for now
 
 
-                    //PLAYERS TURN
-                        String res = "";
-                        res += ("Your turn! Your choices:\n"); 
-                        for (int i = 0; i < playerdeck.size(); i++) {
-                            res += (String.valueOf(i + 1) + ". " +
-                                    ((UnoCard) playerdeck.get(i)).getFace() + "\n");
-                        }
-                        res += (String.valueOf(playerdeck.size() + 1) + ". " + "Draw card" + "\n" +
-                                String.valueOf(playerdeck.size() + 2) + ". " + "Quit");
-                        // Repeats every time the user doesn't input a number
-                        res += ("\nPlease input the number of your choice: ");
-                        pDeck.setText(res);
+                //PLAYERS TURN
+                String res = "";
+                res += ("Your turn! Your choices:\n");
+                for (int i = 0; i < playerdeck.size(); i++) {
+                    res += (String.valueOf(i + 1) + ". " +
+                            ((UnoCard) playerdeck.get(i)).getFace() + "\n");
+                }
+                res += (String.valueOf(playerdeck.size() + 1) + ". " + "Draw card" + "\n" +
+                        String.valueOf(playerdeck.size() + 2) + ". " + "Quit");
+                // Repeats every time the user doesn't input a number
+                res += ("\nPlease input the number of your choice: ");
+                pDeck.setText(res);
 
-                        //RESULTS
-                        if (win == 1)
-                            pDeck.setText("You win :)");
-                        if (win == -1)
-                            pDeck.setText("You lose :(");
+                //RESULTS
+                if (win == 1)
+                    pDeck.setText("You win :)");
+                if (win == -1)
+                    pDeck.setText("You lose :(");
 
 
-                        selectNum.setText("");
-                    }
+                selectNum.setText("");
+            }
         });
 
         playAgain.addActionListener(new playAgain());
-        frame.setSize(700, 350);
+        frame.setSize(700, 400);
         frame.setVisible(true);
+        frame.setResizable(false);
         playGame();
 
 
@@ -248,22 +249,22 @@ public class UnoGUI extends JFrame{
         draw(7, compdeck);
 
         //TURNS
-            choiceIndex = 0;
+        choiceIndex = 0;
 
 
-            //PLAYERS TURN
-                String res = "";
-                res += ("Your turn! Your choices:\n"); 
-                for (int i = 0; i < playerdeck.size(); i++) {
-                    res += (String.valueOf(i + 1) + ". " +
-                            ((UnoCard) playerdeck.get(i)).getFace() + "\n");
-                }
-                res += (String.valueOf(playerdeck.size() + 1) + ". " + "Draw card" + "\n" +
-                        String.valueOf(playerdeck.size() + 2) + ". " + "Quit");
-                // Repeats every time the user doesn't input a number
+        //PLAYERS TURN
+        String res = "";
+        res += ("Your turn! Your choices:\n");
+        for (int i = 0; i < playerdeck.size(); i++) {
+            res += (String.valueOf(i + 1) + ". " +
+                    ((UnoCard) playerdeck.get(i)).getFace() + "\n");
+        }
+        res += (String.valueOf(playerdeck.size() + 1) + ". " + "Draw card" + "\n" +
+                String.valueOf(playerdeck.size() + 2) + ". " + "Quit");
+        // Repeats every time the user doesn't input a number
 
-                res += ("\nPlease input the number of your choice: ");
-                pDeck.setText(res);
+        res += ("\nPlease input the number of your choice: ");
+        pDeck.setText(res);
 
 
     } // game loop end
